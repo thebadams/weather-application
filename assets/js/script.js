@@ -94,6 +94,7 @@ function renderCurrentWeather(data) {
     currentWeatherCard.append(currentTemp, currentHumidity, currentWindSpeed, currentUVIndex, currentIcon);
 }
 
+//function to render forecast data
 function renderForecast(data) {
     let forecastWeather = data.daily;
     let forecastWeatherCard = document.querySelector("#forecast");
