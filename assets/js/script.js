@@ -38,13 +38,14 @@ async function queryAPI2() {
     let response1 = await fetch(constructURL1());
     let data = await response1.json()
     let coord = await data.coord;
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${defaultAPIKey}`)
-        .then((response)=>{
-            console.log(response);
-            return response.json();
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=minutely,hourly,alerts&units=imperial&appid=${defaultAPIKey}`)
+        .then((response2)=>{
+            console.log(response2);
+            return response2.json();
         })
         .then((data)=>{
-            console.log(data);
+            console.log(data.current);
+            console.log(data.daily);
         })
         .catch((err)=> {
             console.err(err);
