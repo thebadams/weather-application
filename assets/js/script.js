@@ -40,23 +40,30 @@ class currentWeatherObject {
     constructor(tTemp, tHumidity, tWindSpeed, tUVI, tIcon){
         this.temperature = `${tTemp} F`,
         this.humidity = `${tHumidity} %`,
-        this.windSpeed = `${tWindSpeed}mph`,
+        this.windSpeed = `${tWindSpeed}MPH`,
         this.UVIndex = tUVI,
         this.iconURL = `http://openweathermap.org/img/wn/${tIcon}@2x.png`
     }
 }
 
+class foreCastWeatherObject {
+    constructor(tTemp, tHumidity, tIcon) {
+        this.temperature = `${tTemp} F`,
+        this.humidity = `${tHumidity} %`,
+        this.iconURL = `http://openweathermap.org/img/wn/${tIcon}@2x.png`
+    }
+}
 async function queryAPI2() {
     let response1 = await fetch(constructURL1());
     let data1 = await response1.json()
     let coord = await data1.coord;
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=minutely,hourly,alerts&units=imperial&appid=${defaultAPIKey}`)
         .then((response2)=>{
-            console.log(response2);
             return response2.json();
         })
         .then((data)=>{
             renderCurrentWeather(data);
+            renderForecast(data);
         })
         .catch((err)=> {
             console.error(err);
@@ -75,11 +82,11 @@ function renderCurrentWeather(data) {
     let currentWeatherInfo = new currentWeatherObject(currentWeather.temp, currentWeather.humidity, currentWeather.wind_speed, currentWeather.uvi, currentWeather.weather[0].icon);
     let currentWeatherCard = document.querySelector("#current-weather");
     let currentTemp = document.createElement("p");
-    currentTemp.textContent = `Temperature: ${currentWeatherInfo.temperature} F`
+    currentTemp.textContent = `Temperature: ${currentWeatherInfo.temperature}`
     let currentHumidity = document.createElement("p");
-    currentHumidity.textContent = `Humidity ${currentWeatherInfo.humidity}%`
+    currentHumidity.textContent = `Humidity ${currentWeatherInfo.humidity}`
     let currentWindSpeed = document.createElement("p");
-    currentWindSpeed.textContent = `${currentWeatherInfo.windSpeed} MPH`
+    currentWindSpeed.textContent = `${currentWeatherInfo.windSpeed}`
     let currentUVIndex = document.createElement("p")
     currentUVIndex.textContent = `UV Index: ${currentWeatherInfo.UVIndex}`
     let currentIcon = document.createElement("img");
@@ -87,6 +94,21 @@ function renderCurrentWeather(data) {
     currentWeatherCard.append(currentTemp, currentHumidity, currentWindSpeed, currentUVIndex, currentIcon);
 }
 
+function renderForecast(data) {
+    let forecastWeather = data.daily;
+    let forecastWeatherCard = document.querySelector("#forecast");
+    for(var j = 1; j < 6; j++) {
+        let forecastWeatherInfo = new foreCastWeatherObject(forecastWeather[j].temp.max, forecastWeather[j].humidity, forecastWeather[j].weather[0].icon);
+        let forecastTemp = document.createElement("p");
+        forecastTemp.textContent = `Temperature: ${forecastWeatherInfo.temperature}`;
+        let forecastHumidity = document.createElement("p");
+        forecastHumidity.textContent = `Humidity: ${forecastWeatherInfo.humidity}`;
+        let forecastIcon = document.createElement("img");
+        forecastIcon.setAttribute("src", forecastWeatherInfo.iconURL);
+        forecastWeatherCard.append(forecastTemp, forecastHumidity, forecastIcon);
+    }
+    
+}
 
 
 //function to display previously searched cities
