@@ -1,6 +1,6 @@
 //grab html elements:
 var cityName = document.querySelector("#city-name");
-
+var weatherBtn = document.querySelector("#weather-btn")
 //construct requestURL #1;
 //url http://api.openweathermap.org/data/2.5/weather?q={cityQuery}&appid={APIKey}
 
@@ -44,11 +44,15 @@ async function queryAPI2() {
             return response2.json();
         })
         .then((data)=>{
-            console.log(data.current);
-            console.log(data.daily);
-            console.log(data.daily[0].dt)
+            console.log(data);
+            return data;
         })
         .catch((err)=> {
             console.error(err);
         })
     };
+
+weatherBtn.addEventListener("click", ()=>{
+    queryAPI2();
+    cityName.value = "";
+})
