@@ -99,6 +99,12 @@ function renderCurrentWeather(data) {
     let currentWeather = data.current
     let currentWeatherInfo = new currentWeatherObject(currentWeather.temp, currentWeather.humidity, currentWeather.wind_speed, currentWeather.uvi, currentWeather.weather[0].icon);
     let currentWeatherCard = document.querySelector("#current-weather");
+    if(currentWeatherCard.childElementCount !== 0){
+        console.log("there's stuff on the page")
+        for(var i = currentWeatherCard.children.length-1; i>0 ; i--){
+            currentWeatherCard.children[i].remove();
+        }
+    }
     let currentTemp = document.createElement("p");
     currentTemp.textContent = `Temperature: ${currentWeatherInfo.temperature}`
     let currentHumidity = document.createElement("p");
@@ -116,6 +122,11 @@ function renderCurrentWeather(data) {
 function renderForecast(data) {
     let forecastWeather = data.daily;
     let forecastWeatherCard = document.querySelector("#forecast");
+    if (forecastWeatherCard.childElementCount !== 0) {
+        for (var i = forecastWeatherCard.children.length-1; i > 0; i--) {
+            forecastWeatherCard.children[i].remove();
+        }
+    }
     for(var j = 1; j < 6; j++) {
         let forecastWeatherInfo = new foreCastWeatherObject(forecastWeather[j].temp.max, forecastWeather[j].humidity, forecastWeather[j].weather[0].icon);
         let forecastTemp = document.createElement("p");
