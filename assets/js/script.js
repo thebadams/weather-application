@@ -144,11 +144,13 @@ function renderForecast(data) {
 //function to display previously searched cities
 //FIXME: currently wil add a city regardless of whether it appears on the list previously
 function renderHistory(){
-    let historyListItem = cityName.value;
+    for(var i = 0; i < previousSearches.length; i++){
     let historyList = document.querySelector("#history-list");
     let newListItem = document.createElement("li");
-    newListItem.textContent = historyListItem;
+    newListItem.textContent = previousSearches[i];
     historyList.append(newListItem);
+
+    }
 
 }
 
