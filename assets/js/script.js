@@ -53,6 +53,16 @@ async function queryAPI2() {
     };
 
 weatherBtn.addEventListener("click", ()=>{
-    queryAPI2();
+    let info = queryAPI2();
+
     cityName.value = "";
 })
+
+function renderHistory(){
+    let historyListItem = cityName.value;
+    let historyList = document.querySelector("#history-list");
+    let newListItem = document.createElement("li");
+    newListItem.textContent = historyListItem;
+    historyList.append(newListItem);
+
+}
