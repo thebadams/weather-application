@@ -9,9 +9,24 @@ var weatherBtn = document.querySelector("#weather-btn")
 function constructURL1() {
     var cityQuery = cityName.value;
     var requestURL = `http://api.openweathermap.org/data/2.5/weather?q=${cityQuery}&appid=${defaultAPIKey}`
+    console.log(requestURL)
     return requestURL;
+    
 }
 
+var previousSearches = JSON.parse(localStorage.getItem("previousSearches") || "[]")
+function savePreviousSearch() {
+
+}
+
+function saveSearches() {
+    if (previousSearches.includes(cityName.value)) {
+        return
+    } else {
+        previousSearches.push(cityName.value)
+        window.localStorage.setItem("previousSearches", JSON.stringify(previousSearches));
+    }
+}
 //construct fetch
 
 // function queryAPI() {
@@ -62,6 +77,7 @@ async function queryAPI2() {
             return response2.json();
         })
         .then((data)=>{
+            console.log(data)
             renderCurrentWeather(data);
             renderForecast(data);
         })
@@ -71,9 +87,11 @@ async function queryAPI2() {
     };
 
 weatherBtn.addEventListener("click", ()=>{
-    let info = queryAPI2();
+    saveSearches();
+    queryAPI2();
 
     cityName.value = "";
+    
 })
 
 //function to render current weather data
@@ -121,4 +139,14 @@ function renderHistory(){
     newListItem.textContent = historyListItem;
     historyList.append(newListItem);
 
+}
+
+function getCityList(){
+    fetch('./assets/js/city.list.min.json')
+        .then((response)=>{
+            return response.json();
+        })
+        .then((data)=>{
+            console.log(data)
+        })
 }
