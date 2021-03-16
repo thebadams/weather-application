@@ -34,6 +34,18 @@ function constructURL1() {
     
 // }
 
+//weatherInformation classes
+
+class currentWeatherObject {
+    constructor(tTemp, tHumidity, tWindSpeed, tUVI, tIcon){
+        this.temperature = `${tTemp} F`,
+        this.humidity = `${tHumidity} %`,
+        this.windSpeed = `${tWindSpeed}mph`,
+        this.UVIndex = tUVI,
+        this.iconURL = `http://openweathermap.org/img/wn/${tIcon}@2x.png`
+    }
+}
+
 async function queryAPI2() {
     let response1 = await fetch(constructURL1());
     let data1 = await response1.json()
@@ -44,8 +56,7 @@ async function queryAPI2() {
             return response2.json();
         })
         .then((data)=>{
-            console.log(data);
-            return data;
+            renderCurrentWeather(data);
         })
         .catch((err)=> {
             console.error(err);
@@ -58,6 +69,28 @@ weatherBtn.addEventListener("click", ()=>{
     cityName.value = "";
 })
 
+//function to render current weather data
+function renderCurrentWeather(data) {
+    let currentWeather = data.current
+    let currentWeatherInfo = new currentWeatherObject(currentWeather.temp, currentWeather.humidity, currentWeather.wind_speed, currentWeather.uvi, currentWeather.weather[0].icon);
+    let currentWeatherCard = document.querySelector("#current-weather");
+    let currentTemp = document.createElement("p");
+    currentTemp.textContent = `Temperature: ${currentWeatherInfo.temperature} F`
+    let currentHumidity = document.createElement("p");
+    currentHumidity.textContent = `Humidity ${currentWeatherInfo.humidity}%`
+    let currentWindSpeed = document.createElement("p");
+    currentWindSpeed.textContent = `${currentWeatherInfo.windSpeed} MPH`
+    let currentUVIndex = document.createElement("p")
+    currentUVIndex.textContent = `UV Index: ${currentWeatherInfo.UVIndex}`
+    let currentIcon = document.createElement("img");
+    currentIcon.setAttribute("src", currentWeatherInfo.iconURL);
+    currentWeatherCard.append(currentTemp, currentHumidity, currentWindSpeed, currentUVIndex, currentIcon);
+}
+
+
+
+//function to display previously searched cities
+//FIXME: currently wil add a city regardless of whether it appears on the list previously
 function renderHistory(){
     let historyListItem = cityName.value;
     let historyList = document.querySelector("#history-list");
