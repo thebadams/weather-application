@@ -101,7 +101,7 @@ function renderCurrentWeather(data) {
     let currentWeatherCard = document.querySelector("#current-weather");
     if(currentWeatherCard.childElementCount !== 0){
         console.log("there's stuff on the page")
-        for(var i = currentWeatherCard.children.length-1; i>0 ; i--){
+        for(var i = currentWeatherCard.children.length-1; i>=0 ; i--){
             currentWeatherCard.children[i].remove();
         }
     }
@@ -123,7 +123,7 @@ function renderForecast(data) {
     let forecastWeather = data.daily;
     let forecastWeatherCard = document.querySelector("#forecast");
     if (forecastWeatherCard.childElementCount !== 0) {
-        for (var i = forecastWeatherCard.children.length-1; i > 0; i--) {
+        for (var i = forecastWeatherCard.children.length-1; i >= 0; i--) {
             forecastWeatherCard.children[i].remove();
         }
     }
