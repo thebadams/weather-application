@@ -7,7 +7,7 @@ var weatherBtn = document.querySelector('#weather-btn');
 //construct requestURL #2
 //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 function constructURL1() {
-	var cityQuery = cityName.value;
+	var cityQuery = cityName.value.toUpperCase();
 	var requestURL = `http://api.openweathermap.org/data/2.5/weather?q=${cityQuery}&appid=${defaultAPIKey}`;
 	console.log(requestURL);
 	return requestURL;
@@ -163,8 +163,8 @@ function renderForecast(data) {
 		let forecastCard = document.createElement("div")
 		forecastCard.classList.add("card", "col-12", "col-lg-5", "col-xl-2");
 		forecastCardsDiv.append(forecastCard)
-		let forecastDate = document.createElement('p');
-		forecastDate.classList.add("lead")
+		let forecastDate = document.createElement('h4');
+		forecastDate.classList.add("card-title")
 		forecastDate.textContent = `${forecastWeatherInfo.date}`
 		let forecastTemp = document.createElement('p');
 		forecastTemp.classList.add("lead")
@@ -185,6 +185,7 @@ function renderHistory() {
 		let historyList = document.querySelector('#history-list');
 		let newListItem = document.createElement('li');
 		newListItem.textContent = previousSearches[i];
+		newListItem.classList.add("lead")
 		historyList.append(newListItem);
 	}
 }
@@ -198,3 +199,9 @@ function getCityList() {
 			console.log(data);
 		});
 }
+
+function init() {
+	renderHistory()
+}
+
+init()
