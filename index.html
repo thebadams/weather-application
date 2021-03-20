@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Local Weather and Forecast</title>
 </head>
 <body>
@@ -12,9 +13,9 @@
         <p class="lead">The Simple Way To Get Weather</p>
     </header>
     <aside>
-    <section id="search-form">        
+    <section id="search-form" class="form">        
         <input type="text" name="city-name" id="city-name">
-        <button id="weather-btn">Get Weather Report</button>
+        <button id="weather-btn" class="btn">Get Weather Report</button>
     </section>
     <section id="history">
         <ul id="history-list">
@@ -34,6 +35,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
     <script src="./assets/js/api-keys.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
