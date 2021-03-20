@@ -14,7 +14,6 @@ function constructURL1() {
 }
 
 var previousSearches = JSON.parse(localStorage.getItem('previousSearches') || '[]');
-function savePreviousSearch() {}
 
 function saveSearches() {
 	if (previousSearches.includes(cityName.value)) {
@@ -111,19 +110,27 @@ function renderCurrentWeather(data) {
 			currentWeatherCard.children[i].remove();
 		}
 	}
-	let currentDate = document.createElement('p');
-	currentDate.textContent = `Date: ${currentWeatherInfo.date}`
+	let currentDate = document.createElement('h2');
+	currentDate.textContent = `${currentWeatherInfo.date}`
+	currentDate.classList.add("display-3");
+	let currentWeatherDiv = document.createElement('div');
+	currentWeatherDiv.classList.add("card", "card-body", "text-center")
 	let currentTemp = document.createElement('p');
-	currentTemp.textContent = `Temperature: ${currentWeatherInfo.temperature}`;
+	currentTemp.textContent = `${currentWeatherInfo.temperature}`;
+	currentTemp.classList.add("lead");
 	let currentHumidity = document.createElement('p');
-	currentHumidity.textContent = `Humidity ${currentWeatherInfo.humidity}`;
+	currentHumidity.textContent = `${currentWeatherInfo.humidity} Humidity`;
+	currentHumidity.classList.add("lead")
 	let currentWindSpeed = document.createElement('p');
 	currentWindSpeed.textContent = `${currentWeatherInfo.windSpeed}`;
+	currentWindSpeed.classList.add("lead");
 	let currentUVIndex = document.createElement('p');
 	currentUVIndex.textContent = `UV Index: ${currentWeatherInfo.UVIndex}`;
+	currentUVIndex.classList.add("lead");
 	let currentIcon = document.createElement('img');
 	currentIcon.setAttribute('src', currentWeatherInfo.iconURL);
-	currentWeatherCard.append(currentDate, currentTemp, currentHumidity, currentWindSpeed, currentUVIndex, currentIcon);
+	currentWeatherCard.append(currentDate, currentWeatherDiv);
+	currentWeatherDiv.append(currentTemp, currentHumidity, currentWindSpeed, currentUVIndex, currentIcon)
 }
 
 //function to render forecast data
