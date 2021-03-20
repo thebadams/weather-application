@@ -12,26 +12,30 @@
         <h1 class="display-1">The Weather Application</h1>
         <p class="lead">The Simple Way To Get Weather</p>
     </header>
-    <aside>
-    <section id="search-form" class="form">        
-        <input type="text" name="city-name" id="city-name">
-        <button id="weather-btn" class="btn">Get Weather Report</button>
-    </section>
-    <section id="history">
-        <ul id="history-list">
+    <div class="row">
+        <aside class="col-12 col-lg-4">
+            <section id="search-form" class="form card card-body my-3"> 
+                <h3 class="card-title">Search Here</h3>      
+                <input type="text" name="city-name" id="city-name">
+                <button id="weather-btn" class="btn">Get Weather Report</button>
+            </section>
+        <section id="history" class= "card card-body my-3">
+            <h3 class="card-title">Previous Searches</h3>
+            <ul id="history-list">
 
-        </ul>
-        
-    </section>
-    </aside>
-    <main>
-        <section id="current-weather">
-
+            </ul>
+            
         </section>
-        <section id="forecast">
+        </aside>
+        <main>
+            <section id="current-weather">
 
-        </section>
-    </main>
+            </section>
+            <section id="forecast">
+
+            </section>
+        </main>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous"></script>
