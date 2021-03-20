@@ -142,6 +142,17 @@ function renderForecast(data) {
 			forecastWeatherCard.children[i].remove();
 		}
 	}
+	let forecastHeadingDiv = document.createElement("div");
+	forecastHeadingDiv.classList.add("row", "justify-content-center");
+	let forecastHeading = document.createElement("h3");
+	forecastHeading.classList.add("display-3");
+	forecastHeading.textContent = "5 Day Forecast";
+	let forecastCardsDiv = document.createElement("div")
+	forecastCardsDiv.classList.add("row", "text-center", "justify-content-around","my-3");
+	forecastWeatherCard.append(forecastHeadingDiv, forecastCardsDiv);
+	forecastHeadingDiv.append(forecastHeading)
+	
+
 	for (var j = 1; j < 6; j++) {
 		let forecastWeatherInfo = new foreCastWeatherObject(
 			forecastWeather[j].dt,
@@ -149,15 +160,21 @@ function renderForecast(data) {
 			forecastWeather[j].humidity,
 			forecastWeather[j].weather[0].icon
 		);
+		let forecastCard = document.createElement("div")
+		forecastCard.classList.add("card", "col-12", "col-lg-5", "col-xl-2");
+		forecastCardsDiv.append(forecastCard)
 		let forecastDate = document.createElement('p');
-		forecastDate.textContent = `Date: ${forecastWeatherInfo.date}`
+		forecastDate.classList.add("lead")
+		forecastDate.textContent = `${forecastWeatherInfo.date}`
 		let forecastTemp = document.createElement('p');
+		forecastTemp.classList.add("lead")
 		forecastTemp.textContent = `Temperature: ${forecastWeatherInfo.temperature}`;
 		let forecastHumidity = document.createElement('p');
-		forecastHumidity.textContent = `Humidity: ${forecastWeatherInfo.humidity}`;
+		forecastHumidity.textContent = `${forecastWeatherInfo.humidity} Humidity`;
+		forecastHumidity.classList.add("lead")
 		let forecastIcon = document.createElement('img');
 		forecastIcon.setAttribute('src', forecastWeatherInfo.iconURL);
-		forecastWeatherCard.append(forecastDate, forecastTemp, forecastHumidity, forecastIcon);
+		forecastCard.append(forecastDate, forecastTemp, forecastHumidity, forecastIcon);
 	}
 }
 
