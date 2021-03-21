@@ -1,13 +1,13 @@
 //grab html elements:
 var cityName = document.querySelector('#city-name');
 var weatherBtn = document.querySelector('#weather-btn');
+var previousSearchesList = document.querySelector("#history-list");
 //construct requestURL #1;
 //url http://api.openweathermap.org/data/2.5/weather?q={cityQuery}&appid={APIKey}
 
 //construct requestURL #2
 //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-function constructURL1() {
-	var cityQuery = cityName.value.toUpperCase();
+function constructURL1(cityQuery) {
 	var requestURL = `http://api.openweathermap.org/data/2.5/weather?q=${cityQuery}&appid=${defaultAPIKey}`;
 	console.log(requestURL);
 	return requestURL;
@@ -25,24 +25,19 @@ function saveSearches() {
 }
 //construct fetch
 
-// function queryAPI() {
-//    let requestURL = constructURL1();
-//     fetch(requestURL)
-//         .then((response)=> {
-//             console.log(response)
-//             return response.json();
-//         })
-//         .then((data)=> {
-//             console.log(data);
-//             var coord = data.coord
-//             return coord;
+async function queryAPI(cityQuery) {
+	let requestURL = constructURL1(cityQuery);
+	let response = await fetch(requestURL);
+	if(response.ok) {
+		saveSearches()
+	} else{
+		return
+	}
+	let data = await response.json();
+	return data.coord
+    
 
-//         })
-//         .catch((err)=>{
-//             console.error(err);
-//         })
-
-// }
+}
 
 //weatherInformation classes
 
@@ -65,10 +60,8 @@ class foreCastWeatherObject {
 		this.iconURL = `http://openweathermap.org/img/wn/${tIcon}@2x.png`;
 	}
 }
-async function queryAPI2() {
-	let response1 = await fetch(constructURL1());
-	let data1 = await response1.json();
-	let coord = await data1.coord;
+async function queryAPI2(cityQuery) {
+	let coord = await queryAPI(cityQuery)
 	fetch(
 		`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=minutely,hourly,alerts&units=imperial&appid=${defaultAPIKey}`
 	)
@@ -79,17 +72,21 @@ async function queryAPI2() {
 			console.log(data);
 			renderCurrentWeather(data);
 			renderForecast(data);
+			renderHistory()
+			checkActiveState(cityQuery)
+			cityName.value = ''
 		})
 		.catch((err) => {
-			console.error(err);
+			console.error(err)
+			return;
 		});
 }
 
 weatherBtn.addEventListener('click', () => {
-	saveSearches();
-	queryAPI2();
+	let cityQuery = cityName.value
+	queryAPI2(cityQuery);
 
-	cityName.value = '';
+	// cityName.value = '';
 });
 
 //function to render current weather data
@@ -161,7 +158,7 @@ function renderForecast(data) {
 			forecastWeather[j].weather[0].icon
 		);
 		let forecastCard = document.createElement("div")
-		forecastCard.classList.add("card", "col-12", "col-lg-5", "col-xl-2");
+		forecastCard.classList.add("card", "col-12", "col-lg-5", "col-xl-2", "my-3");
 		forecastCardsDiv.append(forecastCard)
 		let forecastDate = document.createElement('h4');
 		forecastDate.classList.add("card-title")
@@ -181,8 +178,13 @@ function renderForecast(data) {
 //function to display previously searched cities
 //FIXME: currently wil add a city regardless of whether it appears on the list previously
 function renderHistory() {
+	let historyList = document.querySelector('#history-list');
+	if(historyList.childElementCount !== 0){
+		for(var j = historyList.children.length-1; j>=0; j--){
+			historyList.children[j].remove()
+		}
+	}
 	for (var i = 0; i < previousSearches.length; i++) {
-		let historyList = document.querySelector('#history-list');
 		let newListItem = document.createElement('li');
 		newListItem.textContent = previousSearches[i];
 		newListItem.classList.add("lead")
@@ -204,4 +206,21 @@ function init() {
 	renderHistory()
 }
 
+//add event listener to the previous searches list
+previousSearchesList.addEventListener("click", async function (event) {
+	if(event.target.matches("li")){
+		let cityQuery = event.target.textContent
+		queryAPI2(cityQuery)
+	}
+})
+
+function checkActiveState(cityQuery) {
+	console.log(cityQuery)
+	let listItems = document.querySelectorAll("li")
+		for(let i = 0; i < listItems.length; i++){
+			if(cityQuery=== listItems[i].textContent) {
+				listItems[i].classList.add("active")
+			}
+		};
+}
 init()

@@ -1,0 +1,2 @@
+var defaultAPIKey = "8439328fdd0471547c0b77443281532d";
+var weatherAppKey = "275db392c136c849c6619649762fa4d1";

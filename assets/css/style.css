@@ -42,3 +42,8 @@ li:hover {
 .jumbotron {
     background-color: lightgrey;
 }
+
+.active {
+    background: cornflowerblue;
+    color: white
+}
