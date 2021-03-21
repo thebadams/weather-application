@@ -8,7 +8,7 @@ var previousSearchesList = document.querySelector("#history-list");
 //construct requestURL #2
 //https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 function constructURL1(cityQuery) {
-	var requestURL = `http://api.openweathermap.org/data/2.5/weather?q=${cityQuery}&appid=${defaultAPIKey}`;
+	var requestURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityQuery}&appid=${defaultAPIKey}`;
 	console.log(requestURL);
 	return requestURL;
 }
